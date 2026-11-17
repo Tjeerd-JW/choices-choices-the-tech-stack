@@ -1,0 +1,48 @@
+
+<section class="activity-log">
+    <h2>Activiteiten</h2>
+
+    {% for event in log %}
+        {% assign action = event.type_action | default: "onbekend" | downcase %}
+
+        <details>
+            <summary>
+                <h3>
+                    {% if action == "innemen" %}
+                        <img src="/assets/icons/innemen.svg" alt="" width="30">
+                    {% elsif action == "uitlenen" %}
+                        <img src="/assets/icons/uitlenen.svg" alt="" width="30">
+                    {% elsif action == "schade" %}
+                        <img src="/assets/icons/schade.svg" alt="" width="30">
+                    {% else %}
+                        <img src="/assets/icons/onbekend.svg" alt="" width="30">
+                    {% endif %}
+
+                    {{ event.type_action | default: "onbekend" }}
+                </h3>
+
+                <p>
+                    {{ event.date_created | date: "%H:%M" }}
+                    {{ event.date_created | date: "%d %b %Y" }}
+                </p>
+            </summary>
+
+            <div class="details-content">
+                <dl>
+                    <div>
+                        <dt>Docent:</dt>
+                        <dd>{{ event.performed_by | default: "Prelude" }}</dd>
+                    </div>
+
+                    <div>
+                        <dt>Student:</dt>
+                        <dd>{{ event.involved_party | default: "Onbekend" }}</dd>
+                    </div>
+
+                    <dt>Details:</dt>
+                    <dd>{{ event.note | default: "Geen details" }}</dd>
+                </dl>
+            </div>
+        </details>
+    {% endfor %}
+</section>

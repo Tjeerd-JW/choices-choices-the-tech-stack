@@ -1,0 +1,100 @@
+<h1>{{ instrument.name }}</h1>
+
+<section class="instrument-detail">
+  {% assign status_class = instrument.status | default: 'Onbekend' | downcase | replace: ' ', '-' %}
+
+  <h2 class="{{ status_class }}">
+    {{ instrument.status | default: 'Onbekend' }}
+  </h2>
+
+  {% if instrument.status == 'Uitgeleend' %}
+    <dl>
+      <div>
+        <dt>Uitgeleend sinds:</dt>
+        <dd>
+          {% if instrument.rented_from %}
+            {{ instrument.rented_from | date: '%d %b %Y' }}
+          {% else %}
+            Niet bekend
+          {% endif %}
+        </dd>
+      </div>
+      <div>
+        <dt>Uitgeleend door:</dt>
+        <dd>
+          {{ instrument.student_name | default: 'Niet bekend' }}
+        </dd>
+      </div>
+    </dl>
+  {% endif %}
+
+  <dl>
+    <div>
+      <dt>Bergplaats:</dt>
+      <dd>
+        {{ instrument.storage_room | default: 'Niet bekend' }}
+      </dd>
+    </div>
+    <div>
+      <dt>Eigendom:</dt>
+      <dd>
+        {{ instrument.property | default: 'Niet bekend' }}
+      </dd>
+    </div>
+  </dl>
+
+  <div class="action-buttons">
+    {% if instrument.status == 'Uitgeleend' %}
+      <a href="/takeBack/{{ instrument.key }}" class="button primary"> Innemen </a>
+    {% elsif instrument.status == 'Beschikbaar' %}
+      <a href="/loanOut/{{ instrument.key }}" class="button primary"> Uitlenen </a>
+    {% else %}
+      <a href="#" class="button primary" aria-disabled="true"> Onbeschikbaar </a>
+    {% endif %}
+
+    <a href="/damage/{{ instrument.key }}" class="button danger"> Schade melden </a>
+  </div>
+
+  <h3>Details</h3>
+
+  <dl>
+    <div>
+      <dt>Type instrument:</dt>
+      <dd>
+        {{ instrument.instrument | default: 'Niet bekend' }}
+      </dd>
+    </div>
+    <div>
+      <dt>Serie nummer:</dt>
+      <dd>
+        {{ instrument.serial_number | default: 'Niet bekend' }}
+      </dd>
+    </div>
+    <div>
+      <dt>Merk:</dt>
+      <dd>
+        {{ instrument.brand | default: 'Niet bekend' }}
+      </dd>
+    </div>
+  </dl>
+
+  <a href="#" class="button secondary">Aanpassen</a>
+
+  {% assign img_url = 'https://fdnd-agency.directus.app/assets/' | append: instrument.photo.id %}
+
+  <picture class="picture-partial">
+    <source
+      srcset="{{ img_url }}?width=450&height=450&format=avif&quality=70"
+      type="image/avif"
+    />
+    <source
+      srcset="{{ img_url }}?width=450&height=450&format=webp&quality=70"
+      type="image/webp"
+    />
+    <img
+      src="{{ img_url }}?width=450&height=450&quality=60"
+      alt="afbeelding instrument"
+      style="width: 100%; height: inherit; object-fit: cover;"
+    />
+  </picture>
+</section>

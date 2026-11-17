@@ -1,0 +1,18 @@
+
+{% assign img_url = "https://fdnd-agency.directus.app/assets/" | append: src %}
+
+<picture class="picture-partial">
+  <source
+    srcset="{{ img_url }}?width={{ width }}&height={{ height }}&format=avif&quality=70"
+    type="image/avif"
+  />
+  <source
+    srcset="{{ img_url }}?width={{ width }}&height={{ height }}&format=webp&quality=70"
+    type="image/webp"
+  />
+  <img
+    src="{{ img_url }}?width={{ width }}&height={{ height }}&quality=60"
+    alt="{{ alt }}"
+    style="width: 100%; height: inherit; object-fit: cover;"
+  />
+</picture>

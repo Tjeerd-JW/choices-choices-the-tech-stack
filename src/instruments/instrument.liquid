@@ -1,0 +1,16 @@
+---
+layout: layouts/base.html
+pagination:
+  data: instruments
+  size: 1
+  alias: instrument
+permalink: "instruments/{{ instrument.key }}/index.html"
+---
+
+  {% include "../_includes/partials/instrumentdetail.liquid",
+    instrument: instrument
+  %}
+
+    {% include "../_includes/partials/activitylog.liquid",
+    log: instrument.log
+  %}
