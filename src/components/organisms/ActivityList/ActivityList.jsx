@@ -34,7 +34,7 @@ export default function ActivityLog(props) {
 
       <For each={props.log}>
         {(event) => {
-          const date = () => new Date(event().date_created);
+          const date = new Date(event.date_created);
 
           return (
             <details class={styles.item}>
@@ -42,15 +42,15 @@ export default function ActivityLog(props) {
                 <h3 class={styles.title}>
                   <img
                     class={styles.icon}
-                    src={icons[event().type_action?.toLowerCase()] ?? Onbekend}
+                    src={icons[event.type_action?.toLowerCase()] ?? Onbekend}
                     alt=""
                     width="25"
                     height="25"
                   />
-                  {event().type_action ?? "onbekend"}
+                  {event.type_action ?? "onbekend"}
                 </h3>
                 <p class={styles.time}>
-                  {timeFormat.format(date())} {dateFormat.format(date())}
+                  {timeFormat.format(date)} {dateFormat.format(date)}
                 </p>
               </summary>
 
@@ -58,15 +58,15 @@ export default function ActivityLog(props) {
                 <dl class={styles.list}>
                   <div class={styles.row}>
                     <dt class={styles.term}>Docent:</dt>
-                    <dd>{event().performed_by ?? "Prelude"}</dd>
+                    <dd>{event.performed_by ?? "Prelude"}</dd>
                   </div>
                   <div class={styles.row}>
                     <dt class={styles.term}>Student:</dt>
-                    <dd>{event().involved_party ?? "Onbekend"}</dd>
+                    <dd>{event.involved_party ?? "Onbekend"}</dd>
                   </div>
                   <div class={styles.row}>
                     <dt class={styles.term}>Details:</dt>
-                    <dd>{event().note ?? "Geen details"}</dd>
+                    <dd>{event.note ?? "Geen details"}</dd>
                   </div>
                 </dl>
               </div>

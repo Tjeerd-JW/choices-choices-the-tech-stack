@@ -14,7 +14,7 @@ const fetchInstrument = async (key) => {
     }
 
     const response = await res.json();
-    return response.data[0].log;
+    return response.data[0];
 };
 
 export default function InstrumentPage() {
