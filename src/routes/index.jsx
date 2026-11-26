@@ -1,24 +1,38 @@
 import { Title } from '@solidjs/meta';
-import Counter from '../components/Counter';
-import logo from '../logo.svg';
+import { For, createMemo } from 'solid-js';
+
+const fetchInstruments = async () => {
+  const res = await fetch('https://fdnd-agency.directus.app/items/preludefonds_instruments');
+
+  if (!res.ok) {
+    throw new Error('alles ging de lucht in');
+  }
+  const response = await res.json();
+  // console.log(response.data[0].name)
+
+  return response.data;
+};
 
 export default function Home() {
+  const instruments = createMemo(() => fetchInstruments());
+  console.log("instruments" + { instruments })
+
   return (
     <main>
       <Title>Home - Solid App</Title>
-      <img src={logo} class="logo" alt="Solid logo" />
-      <h1>Hello Solid!</h1>
-      <Counter />
-      <p>
-        Edit <code>src/routes/index.tsx</code> and save to reload.
-      </p>
-      <a
-        href="https://v2.solidjs.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn Solid
-      </a>
+
+      <h1>Alles gaat de lucht in ik zweer</h1>
+      <ul>
+        <For each={instruments()}>
+          {(instrument) => (
+            <li>
+              <a href={`/instruments/${instrument.key}`}>
+                {instrument.name}
+              </a>
+            </li>
+          )}
+        </For>
+      </ul>
     </main>
   );
 }
